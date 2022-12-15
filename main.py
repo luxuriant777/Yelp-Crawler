@@ -3,6 +3,7 @@ import asyncio
 import aiohttp as aiohttp
 import json
 import os
+import time
 
 from dataclasses import dataclass
 from bs4 import BeautifulSoup
@@ -62,7 +63,7 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     list_of_businesses = []
 
     # 20 is a maximum number of pages that API returns
-    for i in range(0, 20):
+    for i in range(0, 1):
         response = requests.get(url_with_offset(url, offset), headers=headers)
         list_of_businesses.extend(dict(response.json())["businesses"])
         offset += 50
@@ -143,11 +144,12 @@ async def scrape_details_of_business(business: Business) -> None:
                             .text
                         )
                         review_date = "".join(
-                            i for i in date_tags[i].text if i.isdigit() or i == "/"
+                            symbol for symbol in date_tags[i].text if symbol.isdigit() or symbol == "/"
                         )
                         business.list_of_reviews.append(
                             ReviewDetails(reviewer_name, reviewer_location, review_date)
                         )
+                time.sleep(2)
     except Exception as e:
         print(e)
         print("Error occurred while scraping details of business.")
@@ -176,6 +178,9 @@ async def main() -> None:
         with open("businesses.json", "a", encoding="utf-8") as f:
             f.write(json.dumps(business, default=lambda o: o.__dict__, indent=4))
             f.write(",\n")
+        if not business.list_of_reviews:
+            with open("failed_to_parse_list_of_reviews.txt", "a", encoding="utf-8") as f:
+                f.write(business.business_yelp_url + "\n")
 
     print("Done. Please, check 'businesses.json' file.")
 
