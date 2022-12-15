@@ -12,25 +12,25 @@ given search results.
 
 ## Each business has the following data:
 
-● Business name
-● Business rating
-● Number of reviews
-● Business yelp url
-● Business website
-● List of first 5 reviews, for each review:
-    ○ Reviewer name
-    ○ Reviewer location○
-    ○ Review date
+* Business name
+* Business rating
+* Number of reviews
+* Business yelp url
+* Business website
+* List of first 5 reviews, for each review:
+    - Reviewer name
+    - Reviewer location○
+    - Review date
 
 ### Installation
 ```shell
-● Get API key on this page https://fusion.yelp.com/
-● Create .env file in project's directory and put there your API_KEY in next format:
+* Get API key on this page https://fusion.yelp.com/
+* Create .env file in project's directory and put there your API_KEY in next format:
 API_KEY=<YOUR_API_KEY>
-● python -m venv venv
-● source venv/bin/activate (Linux and macOS) or venv\Scripts\activate (Windows)
-● pip install -r requirements.txt
-● run main.py
+* python -m venv venv
+* source venv/bin/activate (Linux and macOS) or venv\Scripts\activate (Windows)
+* pip install -r requirements.txt
+* run main.py
 ```
 
 ### Please pay attention
