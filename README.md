@@ -12,15 +12,15 @@ given search results.
 
 ## Each business has the following data:
 
-* Business name
-* Business rating
-* Number of reviews
-* Business yelp url
-* Business website
-* List of first 5 reviews, for each review:
-    - Reviewer name
-    - Reviewer location○
-    - Review date
+- Business name
+- Business rating
+- Number of reviews
+- Business yelp url
+- Business website
+- List of first 5 reviews, for each review:
+    * Reviewer name
+    * Reviewer location
+    * Review date
 
 ### Installation
 ```shell
