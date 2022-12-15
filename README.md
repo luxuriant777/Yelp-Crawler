@@ -24,13 +24,13 @@ given search results.
 
 ### Installation
 ```shell
-Get API key on this page https://fusion.yelp.com/
-Create .env file in project's directory and put there your API_KEY in next format:
-API_KEY=<YOUR_API_KEY>
-python -m venv venv
-source venv/bin/activate (Linux and macOS) or venv\Scripts\activate (Windows)
-pip install -r requirements.txt
-run main.py
+1. Get API key on this page https://fusion.yelp.com/
+2. Create .env file in project's directory and put there your API_KEY in next format:
+API_KEY=YOUR_API_KEY
+3. python -m venv venv
+4. source venv/bin/activate (Linux and macOS) or venv\Scripts\activate (Windows)
+5. pip install -r requirements.txt
+6. run main.py
 ```
 
 ### Please pay attention
