@@ -3,7 +3,6 @@ import asyncio
 import aiohttp as aiohttp
 import json
 import os
-import time
 
 from dataclasses import dataclass
 from bs4 import BeautifulSoup
@@ -63,7 +62,7 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     list_of_businesses = []
 
     # 20 is a maximum number of pages that API returns
-    for i in range(0, 1):
+    for i in range(0, 20):
         response = requests.get(url_with_offset(url, offset), headers=headers)
         list_of_businesses.extend(dict(response.json())["businesses"])
         offset += 50
@@ -92,10 +91,10 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     return list_of_business_objects
 
 
-async def scrape_details_of_business(business: Business) -> None:
+async def scrape_details_of_business(business: Business, sem: asyncio.Semaphore) -> None:
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get(business.business_yelp_url) as resp:
+            async with sem, session.get(business.business_yelp_url) as resp:
                 business_page = await resp.text()
                 soup = BeautifulSoup(business_page, "html.parser")
 
@@ -149,7 +148,6 @@ async def scrape_details_of_business(business: Business) -> None:
                         business.list_of_reviews.append(
                             ReviewDetails(reviewer_name, reviewer_location, review_date)
                         )
-                time.sleep(2)
     except Exception as e:
         print(e)
         print("Error occurred while scraping details of business.")
@@ -166,10 +164,11 @@ async def main() -> None:
     endpoint = endpoint_creator(location, categories)
 
     list_of_business_objects = get_businesses_by_api(endpoint, HEADERS)
+    sem = asyncio.Semaphore(5)
 
     tasks = []
     for business in list_of_business_objects:
-        task = asyncio.create_task(scrape_details_of_business(business))
+        task = asyncio.create_task(scrape_details_of_business(business, sem))
         tasks.append(task)
 
     await asyncio.gather(*tasks)
