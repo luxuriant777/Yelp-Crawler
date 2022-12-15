@@ -25,7 +25,7 @@ given search results.
 ### Installation
 ```shell
 1. Get API key on this page https://fusion.yelp.com/
-2. Create .env file in project\'s directory and put there your API_KEY in next format:
+2. Create .env file in root directory and put there your API_KEY in next format:
 API_KEY=YOUR_API_KEY
 3. python -m venv venv
 4. source venv/bin/activate (Linux and macOS) or venv\Scripts\activate (Windows)
