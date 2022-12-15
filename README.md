@@ -36,4 +36,4 @@ API_KEY=YOUR_API_KEY
 ### Please pay attention
 
 The script can work without a proxy, but sometimes it does not parse all the necessary information due to blocking.
-Currently it uses free proxy package, so it may work slowly. If you have access to premium proxies, you can significantly increase the speed of parsing.
+If you have access to premium proxies, you can increase the quality of parsing.

@@ -8,8 +8,6 @@ from dataclasses import dataclass
 from bs4 import BeautifulSoup
 from urllib.parse import unquote
 from dotenv import load_dotenv
-from fake_useragent import UserAgent
-from fp.fp import FreeProxy
 
 
 load_dotenv()
@@ -64,7 +62,7 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     list_of_businesses = []
 
     # 20 is a maximum number of pages that API returns
-    for i in range(0, 5):
+    for i in range(0, 1):
         response = requests.get(url_with_offset(url, offset), headers=headers)
         list_of_businesses.extend(dict(response.json())["businesses"])
         offset += 50
@@ -95,26 +93,8 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
 
 async def scrape_details_of_business(business: Business) -> None:
     try:
-        ua = UserAgent()
-        useragent = ua.random
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
-            "Cache-Control": "max-age=0",
-            "Dnt": "1",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1",
-            "User-Agent": useragent,
-        }
-
-        proxy = FreeProxy().get()
-        print(f"Proxy currently being used: {proxy}\n")
-
         async with aiohttp.ClientSession() as session:
-            async with session.get(
-                business.business_yelp_url, headers=headers, proxy=proxy
-            ) as resp:
+            async with session.get(business.business_yelp_url) as resp:
                 business_page = await resp.text()
                 soup = BeautifulSoup(business_page, "html.parser")
 
