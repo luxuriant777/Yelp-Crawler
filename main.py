@@ -62,7 +62,7 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     list_of_businesses = []
 
     # 20 is a maximum number of pages that API returns
-    for i in range(0, 2):
+    for i in range(0, 20):
         response = requests.get(url_with_offset(url, offset), headers=headers)
         list_of_businesses.extend(dict(response.json())["businesses"])
         offset += 50
@@ -70,7 +70,7 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
     list_of_business_objects = []
 
     for business in list_of_businesses:
-        business_name = business["name"]
+        business_name = str(unquote(business["name"]))
         business_rating = business["rating"]
         number_of_reviews = business["review_count"]
         business_yelp_url = business["url"].split("?")[0].split("&")[0]
