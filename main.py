@@ -93,8 +93,8 @@ def get_businesses_by_api(url: str, headers: dict) -> list[Business]:
 async def scrape_details_of_business(business: Business, sem: asyncio.Semaphore) -> None:
     try:
         async with aiohttp.ClientSession() as session:
-            async with sem, session.get(business.business_yelp_url) as resp:
-                business_page = await resp.text()
+            async with sem, session.get(business.business_yelp_url) as response:
+                business_page = await response.text()
                 soup = BeautifulSoup(business_page, "html.parser")
 
                 try:
